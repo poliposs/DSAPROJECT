@@ -18,22 +18,16 @@ import java.util.*;
  * @author paulp
  */
 public class MusicGUI extends javax.swing.JFrame {
-    public ArrayList<Song> songs;
-    public ArrayList<String> likedSongs;
-    public ArrayList<String> aSongs;
-    public ArrayList<String> bSongs;
-    
-    StackInterface SI;
+    private StackInterface SI;
+    private QueueInterface QIA;
+    private QueueInterface QIB;
     /**
      * Creates new form MusicGUI
      */
     public MusicGUI() {
         initComponents();
-        songs = new ArrayList<>();
-        likedSongs = new ArrayList<>();
-        aSongs = new ArrayList<>();
-        bSongs = new ArrayList<>();
-        SI = new LikedPlaylist();
+        QIA = new GenreA();
+        QIB = new GenreB();
     }
 
     /**
@@ -54,8 +48,6 @@ public class MusicGUI extends javax.swing.JFrame {
         indieTabBtn = new javax.swing.JButton();
         rockTab = new javax.swing.JPanel();
         rockTabBtn = new javax.swing.JButton();
-        repeatTab = new javax.swing.JPanel();
-        repeatTabBtn = new javax.swing.JButton();
         exit = new javax.swing.JPanel();
         exitBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -63,9 +55,9 @@ public class MusicGUI extends javax.swing.JFrame {
         likedPage = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         likedTA = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        addGenBtn = new javax.swing.JButton();
         songTxtField = new javax.swing.JTextField();
-        indieRbtn = new javax.swing.JRadioButton();
+        indieRBtn = new javax.swing.JRadioButton();
         rockRBtn = new javax.swing.JRadioButton();
         addBtn = new javax.swing.JButton();
         searchBtn = new javax.swing.JButton();
@@ -83,15 +75,14 @@ public class MusicGUI extends javax.swing.JFrame {
         iClearBtn = new javax.swing.JButton();
         iSongTxtField = new javax.swing.JTextField();
         rockPage = new javax.swing.JPanel();
-        iDeleteBtn1 = new javax.swing.JButton();
-        iClearBtn1 = new javax.swing.JButton();
-        iSongTxtField1 = new javax.swing.JTextField();
-        iSearchBtn1 = new javax.swing.JButton();
-        iCountLbl1 = new javax.swing.JLabel();
+        rDeleteBtn = new javax.swing.JButton();
+        rClearBtn = new javax.swing.JButton();
+        rSongTxtField = new javax.swing.JTextField();
+        rSearchBtn = new javax.swing.JButton();
+        rCountLbl = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        indieTA1 = new javax.swing.JTextArea();
+        rockTA = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        repeatPage = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,26 +151,6 @@ public class MusicGUI extends javax.swing.JFrame {
             .addComponent(rockTabBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        repeatTabBtn.setBackground(new java.awt.Color(255, 204, 255));
-        repeatTabBtn.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        repeatTabBtn.setText("Repeat");
-        repeatTabBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                repeatTabBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout repeatTabLayout = new javax.swing.GroupLayout(repeatTab);
-        repeatTab.setLayout(repeatTabLayout);
-        repeatTabLayout.setHorizontalGroup(
-            repeatTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(repeatTabBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-        );
-        repeatTabLayout.setVerticalGroup(
-            repeatTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(repeatTabBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
         exitBtn.setBackground(new java.awt.Color(255, 204, 255));
         exitBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         exitBtn.setText("X");
@@ -210,23 +181,20 @@ public class MusicGUI extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(navBarLayout.createSequentialGroup()
-                        .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(navBarLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(likedTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(indieTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(rockTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(repeatTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(navBarLayout.createSequentialGroup()
-                                .addGap(137, 137, 137)
-                                .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(musicLbl))))
+                        .addGap(137, 137, 137)
+                        .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(musicLbl))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(navBarLayout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(likedTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(indieTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(rockTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navBarLayout.setVerticalGroup(
             navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,8 +209,7 @@ public class MusicGUI extends javax.swing.JFrame {
                 .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(likedTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(indieTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rockTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(repeatTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rockTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(17, 17, 17))
         );
 
@@ -256,10 +223,15 @@ public class MusicGUI extends javax.swing.JFrame {
         likedTA.setRows(5);
         jScrollPane1.setViewportView(likedTA);
 
-        jButton1.setText("Add to");
+        addGenBtn.setText("Add to");
+        addGenBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addGenBtnActionPerformed(evt);
+            }
+        });
 
-        genreGroup.add(indieRbtn);
-        indieRbtn.setText("Indie");
+        genreGroup.add(indieRBtn);
+        indieRBtn.setText("Indie");
 
         genreGroup.add(rockRBtn);
         rockRBtn.setText("Rock");
@@ -320,8 +292,8 @@ public class MusicGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(likedPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(songTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(indieRbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(indieRBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addGenBtn, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(rockRBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(12, 12, 12))
@@ -347,9 +319,9 @@ public class MusicGUI extends javax.swing.JFrame {
                             .addComponent(addBtn)
                             .addComponent(searchBtn))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(addGenBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(indieRbtn)
+                        .addComponent(indieRBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rockRBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -440,43 +412,43 @@ public class MusicGUI extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(iCountLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(167, 167, 167)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         playlistContainer.add(indiePage, "card3");
 
         rockPage.setBackground(new java.awt.Color(204, 153, 255));
 
-        iDeleteBtn1.setText("Remove");
-        iDeleteBtn1.addActionListener(new java.awt.event.ActionListener() {
+        rDeleteBtn.setText("Remove");
+        rDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iDeleteBtn1ActionPerformed(evt);
+                rDeleteBtnActionPerformed(evt);
             }
         });
 
-        iClearBtn1.setText("Clear");
-        iClearBtn1.addActionListener(new java.awt.event.ActionListener() {
+        rClearBtn.setText("Clear");
+        rClearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iClearBtn1ActionPerformed(evt);
+                rClearBtnActionPerformed(evt);
             }
         });
 
-        iSearchBtn1.setText("Search");
-        iSearchBtn1.addActionListener(new java.awt.event.ActionListener() {
+        rSearchBtn.setText("Search");
+        rSearchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iSearchBtn1ActionPerformed(evt);
+                rSearchBtnActionPerformed(evt);
             }
         });
 
-        iCountLbl1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        iCountLbl1.setText("There are 0 songs in your playlist");
+        rCountLbl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rCountLbl.setText("There are 0 songs in your playlist");
 
-        indieTA1.setColumns(20);
-        indieTA1.setRows(5);
-        jScrollPane3.setViewportView(indieTA1);
+        rockTA.setColumns(20);
+        rockTA.setRows(5);
+        jScrollPane3.setViewportView(rockTA);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Indie Playlist");
+        jLabel4.setText("Rock Playlist");
 
         javax.swing.GroupLayout rockPageLayout = new javax.swing.GroupLayout(rockPage);
         rockPage.setLayout(rockPageLayout);
@@ -491,15 +463,15 @@ public class MusicGUI extends javax.swing.JFrame {
                         .addGroup(rockPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(rockPageLayout.createSequentialGroup()
-                                .addComponent(iSongTxtField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rSongTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(iSearchBtn1)))
+                                .addComponent(rSearchBtn)))
                         .addGap(0, 108, Short.MAX_VALUE))
-                    .addComponent(iCountLbl1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rCountLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(rockPageLayout.createSequentialGroup()
-                        .addComponent(iDeleteBtn1)
+                        .addComponent(rDeleteBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(iClearBtn1)))
+                        .addComponent(rClearBtn)))
                 .addContainerGap())
         );
         rockPageLayout.setVerticalGroup(
@@ -512,35 +484,19 @@ public class MusicGUI extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(rockPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(iSongTxtField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(iSearchBtn1))
+                            .addComponent(rSongTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rSearchBtn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(rockPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(iDeleteBtn1)
-                            .addComponent(iClearBtn1))
+                            .addComponent(rDeleteBtn)
+                            .addComponent(rClearBtn))
                         .addGap(12, 12, 12)
-                        .addComponent(iCountLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rCountLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(167, 167, 167)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         playlistContainer.add(rockPage, "card4");
-
-        repeatPage.setBackground(new java.awt.Color(204, 153, 255));
-        repeatPage.setPreferredSize(new java.awt.Dimension(515, 379));
-
-        javax.swing.GroupLayout repeatPageLayout = new javax.swing.GroupLayout(repeatPage);
-        repeatPage.setLayout(repeatPageLayout);
-        repeatPageLayout.setHorizontalGroup(
-            repeatPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
-        );
-        repeatPageLayout.setVerticalGroup(
-            repeatPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
-        );
-
-        playlistContainer.add(repeatPage, "card5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -565,7 +521,6 @@ public class MusicGUI extends javax.swing.JFrame {
         likedPage.setVisible(true);
         indiePage.setVisible(false);
         rockPage.setVisible(false);
-        repeatPage.setVisible(false);
 
     }//GEN-LAST:event_likedTabBtnActionPerformed
 
@@ -579,7 +534,6 @@ public class MusicGUI extends javax.swing.JFrame {
         likedPage.setVisible(false);
         indiePage.setVisible(true);
         rockPage.setVisible(false);
-        repeatPage.setVisible(false);
         
     }//GEN-LAST:event_indieTabBtnActionPerformed
 
@@ -588,110 +542,241 @@ public class MusicGUI extends javax.swing.JFrame {
         likedPage.setVisible(false);
         indiePage.setVisible(false);
         rockPage.setVisible(true);
-        repeatPage.setVisible(false);
         
     }//GEN-LAST:event_rockTabBtnActionPerformed
 
-    private void repeatTabBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repeatTabBtnActionPerformed
-        // TODO add your handling code here:
-        likedPage.setVisible(false);
-        indiePage.setVisible(false);
-        rockPage.setVisible(false);
-        repeatPage.setVisible(true);        
-    }//GEN-LAST:event_repeatTabBtnActionPerformed
-
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        // TODO add your handling code here:
-        
-        //associate title with textfield
-        String title = songTxtField.getText();
-        
-        /*
-        //create new title within Song class
-        Song song = new Song(title);
-        //create Playlist class
-        Playlist playlist = new Playlist();
-        //add title of song into Playlist ArrayList
-        playlist.add(song);
-        
-        ///retrieve
-        ArrayList<Song> songs = playlist.getSongs();
+        // Get the text entered in the songTxtField (presumably a text field for entering song titles)
+        String title = songTxtField.getText();       
 
-        if (songs.isEmpty()) {
-            likedTA.setText("Nothing in your playlist!");
-        } else {
-            // Iterate over the songs and display their titles
-            for (Song s : songs) {
-                likedTA.append(s.getTitle() + "\n");
-            }
-        }
-        */
-        
-        //stack
+        // Push the title onto the stack
         SI.push(title);
-        //likedTA.append(title + "\n");
+
+        // Clear the likedTA text area
         likedTA.setText("");
+
+        // Append the updated stack content to the likedTA text area
         likedTA.append(SI.displayStack() + "\n");
+
+        // Get the number of songs in the stack
         int songNum = SI.size();
+
+        // Update the countLbl label with the number of songs in the playlist
         countLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+        // Clear the songTxtField for the next entry
         songTxtField.setText("");
 
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
-        // Get the target element to search for
+            // Get the target element to search for
+            String target = songTxtField.getText();
+            // Search for the target element in the stack
+            int index = SI.search(target);
+
+            // Display the result
+            if (index != -1) {
+                likedTA.append("Song " + target + " found");
+            } else {
+                likedTA.append("Song " + target + " not found in the playlist");
+            }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        // TODO add your handling code here:
-        String title = songTxtField.getText();
+            // Check if the stack (SI) is empty
+            if (SI.isEmpty()) {
+                // If the stack is empty, display a message indicating that there are no songs to be removed
+                likedTA.append("There are no songs to be removed\n");
+            } else {
+                // If the stack is not empty, pop (remove) the top song from the stack
+                SI.pop();
 
-        if (SI.isEmpty()) {
-            likedTA.append("There are no songs to be removed\n");
-        } else {
-            SI.pop();
-            likedTA.setText("");
-            likedTA.append(SI.displayStack() + "\n");
-            int songNum = SI.size();
-            countLbl.setText("There are " + songNum + " songs in your playlist\n");
-        }
+                // Clear the likedTA text area
+                likedTA.setText("");
 
+                // Append the updated stack content to the likedTA text area
+                likedTA.append(SI.displayStack() + "\n");
+
+                // Get the number of songs in the stack
+                int songNum = SI.size();
+
+                // Update the countLbl label with the number of songs in the playlist
+                countLbl.setText("There are " + songNum + " songs in your playlist\n");
+            }
 
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+            // Empty the stack (SI)
             SI.emptyStack();
+
+            // Get the number of songs in the stack after emptying it
             int songNum = SI.size();
+
+            // Update the countLbl label with the number of songs in the playlist
             countLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+            // Clear the likedTA text area
             likedTA.setText("");
-        
+
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void iSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iSearchBtnActionPerformed
-        // TODO add your handling code here:
+            // Get the target element to search for
+            String target = iSongTxtField.getText();
+            // Search for the target element in the stack
+            boolean find = QIA.search(target);
+
+            // Display the result
+            if (find != false) {
+                indieTA.append("Song " + target + " found");
+            } else {
+                indieTA.append("Song " + target + " not found in the playlist");
+            }
     }//GEN-LAST:event_iSearchBtnActionPerformed
 
     private void iClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iClearBtnActionPerformed
-        // TODO add your handling code here:
+            // Empty the queue (QIA)
+            QIA.emptyQueue();
+
+            // Get the number of songs in the queue after emptying it
+            int songNum = QIA.size();
+
+            // Update the iCountLbl label with the number of songs in the playlist after emptying it
+            iCountLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+            // Clear the indieTA text area
+            indieTA.setText("");
+
     }//GEN-LAST:event_iClearBtnActionPerformed
 
     private void iDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iDeleteBtnActionPerformed
-        // TODO add your handling code here:
+            // Check if the queue QIA is not empty
+            if (!QIA.isEmpty()) {
+                // Dequeue the first song from the queue
+                QIA.dequeue();
+
+                // Clear the indieTA text area
+                indieTA.setText(" ");
+
+                // Display the remaining songs in the queue in the indieTA text area
+                indieTA.append(QIA.displayQueue() + "\n");
+
+                // Get the number of songs in the queue after removing one
+                int iSongNum = QIA.size();
+
+                // Update the iCountLbl label with the number of songs in the playlist
+                iCountLbl.setText("There are " + iSongNum + " songs in your playlist\n");
+            } else {
+                // Display a message if there are no songs to be removed from the queue
+                indieTA.append("There are no songs to be removed\n");
+            }
+
     }//GEN-LAST:event_iDeleteBtnActionPerformed
 
-    private void iDeleteBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iDeleteBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iDeleteBtn1ActionPerformed
+    private void rDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rDeleteBtnActionPerformed
+        // Check if the rock playlist queue is not empty
+        if (!QIB.isEmpty()) {
+            // If the queue is not empty, dequeue the first song
+            QIB.dequeue();
 
-    private void iClearBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iClearBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iClearBtn1ActionPerformed
+            // Clear the text area displaying the rock playlist
+            rockTA.setText(" ");
 
-    private void iSearchBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iSearchBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iSearchBtn1ActionPerformed
+            // Append the updated list of songs in the rock playlist to the text area
+            rockTA.append(QIB.displayQueue() + "\n");
+
+            // Get the number of songs remaining in the rock playlist queue
+            int iSongNum = QIB.size();
+
+            // Update the label displaying the number of songs in the rock playlist
+            rCountLbl.setText("There are " + iSongNum + " songs in your playlist\n");
+        } else {
+            // If the queue is empty, display a message indicating there are no songs to be removed
+            rockTA.append("There are no songs to be removed\n");
+        }
+    }//GEN-LAST:event_rDeleteBtnActionPerformed
+
+    private void rClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rClearBtnActionPerformed
+        // Empty the rock playlist queue
+        QIB.emptyQueue();
+
+        // Get the number of songs remaining in the rock playlist queue
+        int songNum = QIB.size();
+
+        // Update the label displaying the number of songs in the rock playlist
+        rCountLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+        // Clear the text area displaying the rock playlist
+        rockTA.setText("");
+    }//GEN-LAST:event_rClearBtnActionPerformed
+
+    private void rSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSearchBtnActionPerformed
+        // Get the target element to search for from the text field
+        String target = rSongTxtField.getText();
+
+        // Search for the target element in the rock playlist queue
+        boolean find = QIB.search(target);
+
+        // Display the search result in the rock playlist text area
+        if (find != false) {
+            // If the target song is found, append a message indicating it was found
+            rockTA.append("Song " + target + " found");
+        } else {
+            // If the target song is not found, append a message indicating it was not found
+            rockTA.append("Song " + target + " not found in the playlist");
+        }
+
+    }//GEN-LAST:event_rSearchBtnActionPerformed
+
+    private void addGenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGenBtnActionPerformed
+
+        if(indieRBtn.isSelected()){      
+            // Move the last song from the stack to the queue for indie genre
+            Object moveSong = SI.pop(); // Pop the last song from the stack
+            QIA.enqueue(moveSong); // Enqueue the song to the indie queue
+
+            // Update the indie display area with the moved song
+            indieTA.append(moveSong.toString() + "\n");
+
+            // Update the liked playlist display area with the remaining songs in the stack
+            likedTA.setText("");
+            likedTA.append(SI.displayStack() + "\n");
+
+            // Update the count label for the liked playlist
+            int songNum = SI.size();
+            countLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+            // Update the count label for the indie playlist
+            int iSongNum = QIA.size();
+            iCountLbl.setText("There are " + iSongNum + " songs in your playlist\n");
+        }
+        else if(rockRBtn.isSelected()){
+            // Move the last song from the stack to the queue for rock genre
+            Object moveSong = SI.pop(); // Pop the last song from the stack
+            QIB.enqueue(moveSong); // Enqueue the song to the rock queue
+
+            // Update the rock display area with the moved song
+            rockTA.append(moveSong.toString() + "\n");
+
+            // Update the liked playlist display area with the remaining songs in the stack
+            likedTA.setText("");
+            rockTA.append(SI.displayStack() + "\n");
+
+            // Update the count label for the liked playlist
+            int songNum = SI.size();
+            countLbl.setText("There are " + songNum + " songs in your playlist\n");
+
+            // Update the count label for the rock playlist
+            int iSongNum = QIB.size();
+            rCountLbl.setText("There are " + iSongNum + " songs in your playlist\n");
+        }
+        else{
+            return; // Return if no genre is selected
+        }
+
+    }//GEN-LAST:event_addGenBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -730,6 +815,7 @@ public class MusicGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
+    private javax.swing.JButton addGenBtn;
     private javax.swing.JButton clearBtn;
     private javax.swing.JLabel countLbl;
     private javax.swing.JButton deleteBtn;
@@ -737,22 +823,15 @@ public class MusicGUI extends javax.swing.JFrame {
     private javax.swing.JButton exitBtn;
     private javax.swing.ButtonGroup genreGroup;
     private javax.swing.JButton iClearBtn;
-    private javax.swing.JButton iClearBtn1;
     private javax.swing.JLabel iCountLbl;
-    private javax.swing.JLabel iCountLbl1;
     private javax.swing.JButton iDeleteBtn;
-    private javax.swing.JButton iDeleteBtn1;
     private javax.swing.JButton iSearchBtn;
-    private javax.swing.JButton iSearchBtn1;
     private javax.swing.JTextField iSongTxtField;
-    private javax.swing.JTextField iSongTxtField1;
     private javax.swing.JPanel indiePage;
-    private javax.swing.JRadioButton indieRbtn;
+    private javax.swing.JRadioButton indieRBtn;
     private javax.swing.JTextArea indieTA;
-    private javax.swing.JTextArea indieTA1;
     private javax.swing.JPanel indieTab;
     private javax.swing.JButton indieTabBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -767,11 +846,14 @@ public class MusicGUI extends javax.swing.JFrame {
     private javax.swing.JLabel musicLbl;
     private javax.swing.JPanel navBar;
     private javax.swing.JPanel playlistContainer;
-    private javax.swing.JPanel repeatPage;
-    private javax.swing.JPanel repeatTab;
-    private javax.swing.JButton repeatTabBtn;
+    private javax.swing.JButton rClearBtn;
+    private javax.swing.JLabel rCountLbl;
+    private javax.swing.JButton rDeleteBtn;
+    private javax.swing.JButton rSearchBtn;
+    private javax.swing.JTextField rSongTxtField;
     private javax.swing.JPanel rockPage;
     private javax.swing.JRadioButton rockRBtn;
+    private javax.swing.JTextArea rockTA;
     private javax.swing.JPanel rockTab;
     private javax.swing.JButton rockTabBtn;
     private javax.swing.JButton searchBtn;

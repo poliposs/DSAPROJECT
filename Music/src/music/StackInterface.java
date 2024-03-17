@@ -23,4 +23,6 @@ public interface StackInterface {
     public void emptyStack();
 
     public String displayStack();
+    
+    public int search(String target);
 }

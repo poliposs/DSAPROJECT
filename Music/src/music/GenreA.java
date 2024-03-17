@@ -8,7 +8,7 @@ import java.util.*;
  *
  * @author paulp
  */
-public class GenreA implements QueueInterface{
+public class GenreA implements QueueInterface {
     private ArrayList<String> aSongs;
 
     public GenreA() {
@@ -47,4 +47,28 @@ public class GenreA implements QueueInterface{
             return null;
         }
     }
+    
+    // Method to display the whole queue
+    public String displayQueue() {
+        StringBuilder sb = new StringBuilder();
+        for (String item : aSongs) {
+            sb.append(item).append("\n");
+        }
+        return sb.toString();
+    }
+    
+        public void emptyQueue() {
+        aSongs.clear();
+    }
+
+    @Override
+    public boolean search(String target) {
+        for (String item : aSongs) {
+            if (item.equals(target)) {
+                return true; // Target found
+            }
+        }
+        return false; // Target not found
+    }
+
 }

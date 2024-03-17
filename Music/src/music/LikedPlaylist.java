@@ -104,5 +104,14 @@ public class LikedPlaylist implements StackInterface{
 
         return index;
     }
+    
+    public void addIndie(StackInterface SI, QueueInterface QIA) {
+        if (!SI.isEmpty()) {
+            // Pop the last element from the stack
+            Object lastElement = SI.pop();
 
+            // Enqueue the last element into the queue
+            QIA.enqueue(lastElement);
+        }
+    }
 }

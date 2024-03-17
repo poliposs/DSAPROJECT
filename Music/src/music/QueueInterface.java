@@ -19,4 +19,10 @@ public interface QueueInterface {
     public void enqueue(Object newItem);
 
     public Object dequeue();
+
+    public String displayQueue();
+    
+    public void emptyQueue();
+    
+    public boolean search(String target);
 }

@@ -47,4 +47,38 @@ public class GenreB implements QueueInterface{
             return null;
         }
     }
+
+    @Override
+    public String displayQueue() {
+        StringBuilder sb = new StringBuilder();
+        for (String item : bSongs) {
+            sb.append(item).append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+        public void emptyQueue() {
+        bSongs.clear();
+    }
+        
+        public void addIndie(StackInterface SI, QueueInterface QIB) {
+        if (!SI.isEmpty()) {
+            // Pop the last element from the stack
+            Object lastElement = SI.pop();
+
+            // Enqueue the last element into the queue
+            QIB.enqueue(lastElement);
+        }
+    }
+
+    @Override
+    public boolean search(String target) {
+        for (String item : bSongs) {
+            if (item.equals(target)) {
+                return true; // Target found
+            }
+        }
+        return false; // Target not found
+    }
 }
