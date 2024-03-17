@@ -9,11 +9,11 @@ import java.io.Serializable;
  * @author paulp
  */
 public class Song implements Serializable{
-    String title, genre;
+    String title, artist;
 
-    public Song(String title, String genre) {
+    public Song(String title, String artist) {
         this.title = title;
-        this.genre = genre;
+        this.artist = artist;
     }
     
     public Song(){
@@ -28,15 +28,16 @@ public class Song implements Serializable{
     }
 
     public String getGenre() {
-        return genre;
+        return artist;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenre(String artist) {
+        this.artist = artist;
     }
     
     @Override
     public String toString(){
-        return title + genre;
+        return title + "by " + artist;
     }
+
 }
