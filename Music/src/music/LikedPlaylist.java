@@ -4,12 +4,13 @@
  */
 package music;
 import java.util.*;
+
 /**
  *
  * @author paulp
  */
 public class LikedPlaylist implements StackInterface{
-private ArrayList<String> likedSongs;
+    private ArrayList<String> likedSongs;
 
     /**
      * Create a new instance of Stack
@@ -66,14 +67,42 @@ private ArrayList<String> likedSongs;
         int iCount;
         String sMessage = "";
         if (likedSongs.isEmpty()) {
-            sMessage = sMessage.concat("There are 0 songs in this playlist");
+            sMessage = sMessage.concat("");
         } else {
-            sMessage = "The Playlist contains: ";
             for (iCount = 0; iCount < likedSongs.size(); iCount++) {
-                sMessage = sMessage.concat(likedSongs.get(iCount));
-                sMessage = sMessage.concat("; ");
+                sMessage = sMessage.concat(likedSongs.get(iCount) + "\n");
             }
         }
         return sMessage;
     }
+    
+    // Search method to find an element in the liked playlist
+    public int search(String target) {
+        Stack<String> tempStack = new Stack<>();
+        int index = -1;
+        boolean found = false;
+
+        // Search for the target element in the stack
+        while (!likedSongs.isEmpty()) {
+            String current = likedSongs.remove(0);
+            tempStack.push(current);
+            if (current.equals(target)) {
+                found = true;
+                break;
+            }
+        }
+
+        // Restore the original stack
+        while (!tempStack.isEmpty()) {
+            likedSongs.add(0, tempStack.pop());
+        }
+
+        // If found, calculate the index
+        if (found) {
+            index = likedSongs.size() - tempStack.size() + 1;
+        }
+
+        return index;
+    }
+
 }

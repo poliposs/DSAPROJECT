@@ -3,20 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package music;
-import java.io.Serializable;
-/**
- *
- * @author paulp
- */
-public class Song implements Serializable{
-    String title, artist;
 
-    public Song(String title, String artist) {
+import java.io.Serializable;
+
+public class Song implements Serializable {
+    private String title;
+
+    public Song(String title) {
         this.title = title;
-        this.artist = artist;
     }
-    
-    public Song(){
+
+    public Song() {
+        this.title = "";
     }
 
     public String getTitle() {
@@ -26,18 +24,4 @@ public class Song implements Serializable{
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public String getGenre() {
-        return artist;
-    }
-
-    public void setGenre(String artist) {
-        this.artist = artist;
-    }
-    
-    @Override
-    public String toString(){
-        return title + "by " + artist;
-    }
-
 }

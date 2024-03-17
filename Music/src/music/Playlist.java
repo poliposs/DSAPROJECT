@@ -3,38 +3,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package music;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-/**
- *
- * @author paulp
- */
-public class Playlist implements Serializable{
+import java.util.List;
+
+public class Playlist implements Serializable {
     private ArrayList<Song> songs;
 
+    // Default constructor
+    public Playlist() {
+        this.songs = new ArrayList<>();
+    }
+
+    // Constructor with initial songs
     public Playlist(ArrayList<Song> songs) {
         this.songs = songs;
     }
 
-    public void add(Song song){
-        songs.add(song);
+    public void add(Song song) {
+        if (!songs.contains(song)) {
+            songs.add(song);
+        }
     }
-    
-    public void remove(Song song){
+
+    public void remove(Song song) {
         songs.remove(song);
     }
-    
-    public Song search(String title) {
-        for (int i = 0; i < songs.size(); i++) {
-            Song song = songs.get(i); // Access the song object at index i
+
+    public List<Song> search(String title) {
+        List<Song> foundSongs = new ArrayList<>();
+        for (Song song : songs) {
             if (song.getTitle().equalsIgnoreCase(title)) {
-                return song; // Return the song if the title matches
+                foundSongs.add(song);
             }
         }
-        return null; // Return null if the song is not found
+        return foundSongs;
     }
-    
-    public int getNumSongs(){
-        return songs.size();    
+
+    public int getNumSongs() {
+        return songs.size();
+    }
+
+    // Getter method for accessing songs list
+    public ArrayList<Song> getSongs() {
+        return songs;
     }
 }
